@@ -9,17 +9,19 @@
         // constructor() {
         //   this.passPhrase = '1usm03';
         // }
-
+        
+import CryptoJS from 'crypto-js';
+import AES from 'crypto-js/aes';
 
         export function encrypt (obj) {
             let passPhrase = '1usm03';
             var objString = JSON.stringify(obj);
-            return CryptoJS.AES.encrypt(JSON.stringify(obj), passPhrase);
+            return AES.encrypt(JSON.stringify(obj), passPhrase);
         }
 
         export function decrypt (s) {
             let passPhrase = '1usm03';
-            var decryptString = CryptoJS.AES.decrypt(s, passPhrase)
+            var decryptString = AES.decrypt(s, passPhrase)
             var originalData = decryptString.toString(CryptoJS.enc.Utf8);
             return JSON.parse(originalData);
         }

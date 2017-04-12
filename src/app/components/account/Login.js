@@ -33,10 +33,9 @@ class Login extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.user.userName != null) {
-        this.context.router.push('/');
+    if (nextProps.user.userName !== '') {
+        this.context.router.push('/home');
     }
-
   }
 
   render() {

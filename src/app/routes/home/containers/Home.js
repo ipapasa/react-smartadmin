@@ -2,36 +2,45 @@
  * Created by griga on 11/30/15.
  */
 
-import React from 'react'
+import React, {PropTypes} from 'react'
+import {connect} from 'react-redux';
 
 import WidgetGrid from '../../../components/widgets/WidgetGrid'
 import JarvisWidget  from '../../../components/widgets/JarvisWidget'
 
 
-export default class Home extends React.Component {
+class Home extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+  }
+
+  static contextTypes = {
+    router: PropTypes.object
+  }
+
+  componentWillMount() {
+    if (this.props.user.userName == '') {
+      this.context.router.push('/login');
+    }
+  }
+
   render() {
     return (
       <div id="content">
         <WidgetGrid>
           <div className="row">
             <article className="col-sm-6">
-
+              {/*
               <JarvisWidget >
                 <header>
                   <h2><strong>Default</strong> <i>Widget</i></h2>
                 </header>
-                {/* widget div*/}
                 <div>
-                  {/* widget content */}
                   <div className="widget-body">
-
-
                   </div>
-                  {/* end widget content */}
                 </div>
-                {/* end widget div */}
               </JarvisWidget>
-
+              */}
             </article>
           </div>
 
@@ -40,3 +49,11 @@ export default class Home extends React.Component {
     )
   }
 }
+
+function mapStateToProps(state, ownProps) {
+  return {
+    user: state.account
+  }
+}
+
+export default connect(mapStateToProps)(Home );

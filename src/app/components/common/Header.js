@@ -2,7 +2,8 @@
  * Created by griga on 11/17/15.
  */
 
-import React from 'react'
+import React, {PropTypes} from 'react'
+import {Link} from 'react-router';
 
 import FullScreen from './FullScreen'
 import ToggleMenu from './ToggleMenu'
@@ -15,9 +16,26 @@ import LanguageSelector from '../i18n/LanguageSelector'
 import RecentProjects from './RecentProjects'
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as accountActions from '../account/accountActions';
 
 class Header extends React.Component {
+  constructor(props, context) {
+    super(props, context)
+
+    this.logout = this.logout.bind(this);
+  }
+
+  static contextTypes = {
+      router: PropTypes.object
+  };
+
   componentWillMount() {
+  }
+
+  logout() {
+    this.props.actions.logoutUser();
+    this.context.router.push('/login');
   }
 
   render() {
@@ -35,16 +53,16 @@ class Header extends React.Component {
         <ToggleMenu className="btn-header pull-right"  /* collapse menu button */ />
 
         {/* logout button */}
-        {this.props.user.username &&
+        {this.props.user.userName &&
         <div id="logout" className="btn-header transparent pull-right">
-                    <span> <a href="#/login" title="Sign Out"
+                    <span> <a href="#" onClick={this.logout} title="Sign Out"
                               data-logout-msg="You can improve your security further after logging out by closing this opened browser"><i
                       className="fa fa-sign-out"/></a> </span>
         </div>
         }
 
         {/* input: search field */}
-        {this.props.user.username &&
+        {this.props.user.userName &&
         <form action="#/misc/search.html" className="header-search pull-right">
           <input id="search-fld" type="text" name="param" placeholder="Find reports and more"
                  data-autocomplete='[]' />
@@ -74,12 +92,16 @@ class Header extends React.Component {
 
 // const mapStateToProps = (state) => (state.user)
 
-function mapStateToProps(state) {
-  console.log('state', state);
+function mapStateToProps(state) {  
   return {
-    user: state.user
+    user: state.account
   }
-
 }
 
-export default connect(mapStateToProps)(Header)
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(accountActions, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header)

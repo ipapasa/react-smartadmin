@@ -1,7 +1,9 @@
-import {encode} from '../utils/crypt';
+import {encode, encrypt} from '../utils/crypt';
+
 //var test = require('../utils/crypt');
 
 export const LOGIN_USER = 'LOGIN_USER'
+export const LOGOUT_USER = 'LOGOUT_USER'
 export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS'
 export const LOGIN_USER_FAILURE = 'LOGIN_USER_FAILURE'
 
@@ -29,6 +31,12 @@ export function loginUser(user)
         //response is a promise
         response.json().then(function(obj){
           console.log(response);
+
+          //update the data into localstorage
+          let authString = encrypt(obj);
+          console.log(obj, authString);
+          sessionStorage.setItem('authorisationData', "authString");
+
           dispatch(loginUserSuccess(obj));
         })
       }
@@ -46,4 +54,8 @@ export function loginUserSuccess(user) {
 
 export function loginUserFailure(err) {
   return {type: LOGIN_USER_FAILURE, error: "Invalid username or password"}
+}
+
+export function logoutUser() {
+  return {type: LOGOUT_USER, data: {}}
 }

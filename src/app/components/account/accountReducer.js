@@ -18,6 +18,9 @@ export default function accountReducer (state = initialState, action ){
       //console.log('action loginuser failure', action.error);
       return Object.assign({}, {error:action.error});
 
+    case actions.LOGOUT_USER:
+        return initialState
+
     default:
       return state
   }

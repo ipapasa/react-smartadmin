@@ -1,13 +1,9 @@
 import React from 'react'
-import ToggleShortcut from './ToggleShortcut'
-
-
 import {connect} from 'react-redux';
 
 class LoginInfo extends React.Component {
 
   componentWillMount() {
-
   }
 
   render() {
@@ -15,16 +11,14 @@ class LoginInfo extends React.Component {
 
       <div className="login-info">
 			    <span>
-			        <ToggleShortcut>
-			            <img src={this.props.picture} alt="me"
-                       className="online"/><span>{ this.props.username }</span><i className="fa fa-angle-down"/>
-			        </ToggleShortcut>
+			        <img src="assets/img/avatars/sunny.png" alt="me" className="online"/>
+              <span>{ this.props.userName && this.props.userName }</span>
 			     </span>
       </div>
     )
   }
 }
 
-const mapStateToProps = (state)=>(state.user)
+const mapStateToProps = (state)=>(state.account)
 
 export default connect(mapStateToProps)(LoginInfo)
