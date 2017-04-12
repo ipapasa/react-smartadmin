@@ -26,8 +26,13 @@ export function loginUser(user)
       if (response.status !== 200) {
         dispatch(loginUserFailure("Invalid username or password."));
       } else {
-        dispatch(loginUserSuccess(response.json()));
+        //response is a promise
+        response.json().then(function(obj){
+          console.log(response);
+          dispatch(loginUserSuccess(obj));
+        })
       }
+
     }).catch( err => {
       diapatch(loginUserFailure(err));
       throw err;

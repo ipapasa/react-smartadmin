@@ -2,7 +2,7 @@
 import * as actions from './accountActions'
 
 const initialState = {
-  username : '',
+  userName : '',
   error: ''
 };
 

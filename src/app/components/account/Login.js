@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -16,6 +16,10 @@ class Login extends React.Component {
     this.updateLoginData = this.updateLoginData.bind(this);
   }
 
+  static contextTypes = {
+      router: PropTypes.object
+  };
+
   login() {
     this.props.actions.loginUser(this.state.account);
   }
@@ -26,6 +30,13 @@ class Login extends React.Component {
       acct[field] = event.target.value;
 
       return this.setState({account: acct});
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user.userName != null) {
+        this.context.router.push('/');
+    }
+
   }
 
   render() {
@@ -77,7 +88,7 @@ class Login extends React.Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    user: state.user
+    user: state.account
   }
 }
 

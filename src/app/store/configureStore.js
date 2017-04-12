@@ -11,7 +11,7 @@ import {handleBodyClasses, dumpLayoutToStorage, layoutReducer} from '../componen
 
 import navigationReducer from '../components/navigation/navigationReducer'
 import {userReducer, requestUserInfo} from '../components/user'
-import {accountReducer} from '../components/account/accountReducer'
+import accountReducer from '../components/account/accountReducer'
 import {chatReducer, chatInit} from '../components/chat'
 import {eventsReducer} from '../components/calendar'
 import outlookReducer from '../routes/outlook/outlookReducer'
@@ -24,6 +24,7 @@ export const rootReducer = combineReducers(
     routing: routerReducer,
     layout: layoutReducer,
     navigation: navigationReducer,
+
     outlook: outlookReducer,
     user: userReducer,
     account: accountReducer,
