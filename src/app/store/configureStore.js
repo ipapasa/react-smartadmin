@@ -19,7 +19,8 @@ import outlookReducer from '../routes/outlook/outlookReducer'
 import {voiceReducer, VoiceMiddleware} from '../components/voice-control'
 import {voiceControlOn} from '../components/voice-control/VoiceActions';
 
-import {getAuthData} from '../components/utils/fetchUtil';
+
+import requestReducer from '../components/request/requestReducer';
 
 export const rootReducer = combineReducers(
   {
@@ -33,6 +34,8 @@ export const rootReducer = combineReducers(
     chat: chatReducer,
     events: eventsReducer,
     voice: voiceReducer,
+
+    requests: requestReducer
   }
 );
 

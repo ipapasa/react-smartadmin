@@ -4,7 +4,27 @@
         "title":"Home",
         "route":"home",
         "icon":"fa fa-lg fa-fw fa-home"
+    },
+    {
+        "title": "Request",
+        "icon": "fa fa-lg fa-fw fa-table",
+        "items": [
+          {
+            "title": "Requests",
+            "route": "/requests/request-list",
+            "icon": "fa fa-lg fa-fw fa-table"
+          },
+          {
+            "title": "Asset Management",
+            "route": "/requests/asset-management",
+            "icon": "fa fa-lg fa-fw fa-table"
+          },
+          {
+            "title": "Off Book Trade",
+            "route": "/requests/off-book-trade",
+            "icon": "fa fa-lg fa-fw fa-table"
+          }
+        ]
     }
-
   ]
 }

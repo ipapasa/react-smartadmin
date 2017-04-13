@@ -43,7 +43,6 @@ class Home extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  console.log('home mapStateToProps',state.account);
   return {
     user: state.account
   }

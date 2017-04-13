@@ -7,8 +7,6 @@ import {USER_INFO} from './UserActions'
 
 export default function userReducer (state = {
 }, action ){
-  console.log('action', action);
-  
   switch (action.type){
     case USER_INFO:
       return action.data

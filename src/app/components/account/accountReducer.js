@@ -7,7 +7,6 @@ const initialState = Object.assign({
   error: ''
 }, getAuthData());
 
-console.log(initialState);
 
 export default function accountReducer (state = initialState, action ){
 
