@@ -4,7 +4,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as actions from './requestActions'
 
-import RequestItem from './RequestItem';
+import RequestListSearch from './RequestListSearch';
+import RequestTable from './RequestTable';
 
 class RequestList extends React.Component {
   constructor(props) {
@@ -17,11 +18,10 @@ class RequestList extends React.Component {
     return(
       <div id="content">
         <div className="row">
-          {this.props.requests.map(x => {
-            return (
-              <RequestItem item={x} />
-            )
-          })}
+          <RequestListSearch />
+        </div>
+        <div className="row">
+          <RequestTable requests={this.props.requests} />
         </div>
       </div>
     )
