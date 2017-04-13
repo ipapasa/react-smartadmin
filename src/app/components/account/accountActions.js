@@ -9,11 +9,9 @@ export const LOGIN_USER_FAILURE = 'LOGIN_USER_FAILURE'
 
 export function loginUser(user)
 {
-  console.log(user);
+
   var encodedPassword = encode(user.password);
   var data = "grant_type=password&username=" + user.userid + "&password=" + encodedPassword;
-
-  console.log('_token.data:', data);
 
   const request = new Request('/token', {
         method: 'POST',
@@ -35,7 +33,7 @@ export function loginUser(user)
           //update the data into localstorage
           let authString = encrypt(obj);
           console.log(obj, authString);
-          sessionStorage.setItem('authorisationData', "authString");
+          sessionStorage.setItem('authorisationData', authString);
 
           dispatch(loginUserSuccess(obj));
         })
@@ -57,5 +55,6 @@ export function loginUserFailure(err) {
 }
 
 export function logoutUser() {
+  sessionStorage.removeItem('authorisationData');
   return {type: LOGOUT_USER, data: {}}
 }

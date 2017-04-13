@@ -18,6 +18,9 @@ class Home extends React.Component {
     router: PropTypes.object
   }
 
+  componentWillReceiveProps(nextProps) {
+  }
+
   componentWillMount() {
     if (this.props.user.userName == '') {
       this.context.router.push('/login');
@@ -30,30 +33,20 @@ class Home extends React.Component {
         <WidgetGrid>
           <div className="row">
             <article className="col-sm-6">
-              {/*
-              <JarvisWidget >
-                <header>
-                  <h2><strong>Default</strong> <i>Widget</i></h2>
-                </header>
-                <div>
-                  <div className="widget-body">
-                  </div>
-                </div>
-              </JarvisWidget>
-              */}
             </article>
           </div>
-
         </WidgetGrid>
       </div>
     )
   }
+
 }
 
 function mapStateToProps(state, ownProps) {
+  console.log('home mapStateToProps',state.account);
   return {
     user: state.account
   }
 }
 
-export default connect(mapStateToProps)(Home );
+export default connect(mapStateToProps)(Home);

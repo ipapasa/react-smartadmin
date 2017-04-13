@@ -30,6 +30,10 @@ class Header extends React.Component {
       router: PropTypes.object
   };
 
+  componentWillReceiveProps(nextProps) {
+    //console.log('header componentWillReceiveProps', nextProps);
+  }
+
   componentWillMount() {
   }
 
@@ -92,7 +96,7 @@ class Header extends React.Component {
 
 // const mapStateToProps = (state) => (state.user)
 
-function mapStateToProps(state) {  
+function mapStateToProps(state) {
   return {
     user: state.account
   }

@@ -17,7 +17,9 @@ import {eventsReducer} from '../components/calendar'
 import outlookReducer from '../routes/outlook/outlookReducer'
 
 import {voiceReducer, VoiceMiddleware} from '../components/voice-control'
-import {voiceControlOn} from "../components/voice-control/VoiceActions";
+import {voiceControlOn} from '../components/voice-control/VoiceActions';
+
+import {getAuthData} from '../components/utils/fetchUtil';
 
 export const rootReducer = combineReducers(
   {

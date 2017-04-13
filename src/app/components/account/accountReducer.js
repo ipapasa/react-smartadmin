@@ -1,11 +1,13 @@
 
 import * as actions from './accountActions'
+import {getAuthData} from '../utils/fetchUtil'
 
-const initialState = {
+const initialState = Object.assign({
   userName : '',
   error: ''
-};
+}, getAuthData());
 
+console.log(initialState);
 
 export default function accountReducer (state = initialState, action ){
 
@@ -15,7 +17,6 @@ export default function accountReducer (state = initialState, action ){
       return action.data
 
     case actions.LOGIN_USER_FAILURE:
-      //console.log('action loginuser failure', action.error);
       return Object.assign({}, {error:action.error});
 
     case actions.LOGOUT_USER:
