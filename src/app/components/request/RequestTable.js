@@ -2,8 +2,48 @@ import React from 'react';
 
 import RequestTableHeader from './RequestTableHeader';
 import RequestItem from './RequestItem';
+import RequestTablePager from './RequestTablePager';
 
 export default class RequestTable extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      currentOrderColumn: 'Reference',
+      currentOrderBy: 'asc',
+      currentPage: 1,
+      totalPage:0,
+      pageItems:10,
+    }
+  }
+
+  orderRequest(column){
+    if (this.state.currentOrderColumn !== column) {
+        this.setState({
+          currentOrderBy:"asc"
+          currentOrderColumn: column
+        })
+    }
+    else  if (this.state.currentOrderBy === "desc"){
+      this.setState({
+        currentOrderBy:"asc"
+      })
+    }
+    else  if (this.state.currentOrderBy === "asc"){
+      this.setState({
+        currentOrderBy:"desc"
+      })
+    }
+
+    //this.props.requests
+
+  }
+
+  pagination(page) {
+    this.setState({
+      currentPage:page
+    })
+  }
 
   render(){
     return(
@@ -11,22 +51,40 @@ export default class RequestTable extends React.Component {
           <thead>
               <tr>
                   <td>
-                      <RequestTableHeader headername="Reference" />
+                      <RequestTableHeader headerName="Reference"
+                        orderColumn={this.state.currentOrderColumn}
+                        orderBy={this.state.currentOrderBy}
+                        orderRequest={()=>this.orderRequest("requestReference")} />
                   </td>
                   <td>
-                      <RequestTableHeader headername="Request Type" />
+                      <RequestTableHeader headerName="Request Type"
+                        orderColumn={this.state.currentOrderColumn}
+                        orderBy={this.state.currentOrderBy}
+                        orderRequest={()=>this.orderRequest("requestType")} />
                   </td>
                   <td>
-                      <RequestTableHeader headername="ClientCode" />
+                      <RequestTableHeader headerName="ClientCode"
+                        orderColumn={this.state.currentOrderColumn}
+                        orderBy={this.state.currentOrderBy}
+                        orderRequest={()=>this.orderRequest("clientCode")} />
                   </td>
                   <td>
-                      <RequestTableHeader headername="AddedBy" />
+                      <RequestTableHeader headerName="AddedBy"
+                        orderColumn={this.state.currentOrderColumn}
+                        orderBy={this.state.currentOrderBy}
+                        orderRequest={()=>this.orderRequest("addedBy")} />
                   </td>
                   <td>
-                      <RequestTableHeader headername="DateTime Added" />
+                      <RequestTableHeader headerName="DateTime Added"
+                        orderColumn={this.state.currentOrderColumn}
+                        orderBy={this.state.currentOrderBy}
+                        orderRequest={()=>this.orderRequest("dateTimeAdded")} />
                   </td>
                   <td>
-                      <RequestTableHeader headername="Status" />
+                      <RequestTableHeader headerName="Status"
+                        orderColumn={this.state.currentOrderColumn}
+                        orderBy={this.state.currentOrderBy}
+                        orderRequest={()=>this.orderRequest("status")} />
                   </td>
                   <td></td>
               </tr>
@@ -34,22 +92,18 @@ export default class RequestTable extends React.Component {
           <tbody>
           {this.props.requests.map(x => {
             return (
-              <RequestItem r={x} />
+              <RequestItem key={x.requestId} r={x} />
             )
           })}
           </tbody>
           <tfoot>
               <tr>
-                  <td colspan="6">
-                      <div className="pagination">
-                          Page 1 of 3
-                          <a>
-                              <i className="fa fa-chevron-left fa-fw"></i>
-                          </a>
-                          <a>
-                              <i className="fa fa-chevron-right fa-fw"></i>
-                          </a>
-                      </div>
+                  <td colSpan="6">
+                      <RequestTablePager
+                        currentPage={this.state.currentPage}
+                        totalPage={this.state.totalPage}
+                        pageNavigation={() => this.pagination(page)}
+                        />
                   </td>
               </tr>
           </tfoot>
@@ -57,4 +111,7 @@ export default class RequestTable extends React.Component {
     )
   }
 
+}
+
+RequestTable.defaultProps  = {
 }
