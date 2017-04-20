@@ -9,18 +9,28 @@ export default class RequestTable extends React.Component {
     super(props)
 
     this.state = {
-      currentOrderColumn: 'Reference',
+      currentOrderColumn: 'requestReference',
       currentOrderBy: 'asc',
       currentPage: 1,
-      totalPage:0,
+      totalPage: 1,
       pageItems:10,
     }
+
+    this.pagination = this.pagination.bind(this);
+  }//end constructor
+
+  componentWillReceiveProps(nextProps) {
+    let totalPage = parseInt(nextProps.requests.length / this.state.pageItems) + 1;
+    this.setState({
+        totalPage:totalPage
+    })
   }
 
   orderRequest(column){
+    console.log(column, this.state);
     if (this.state.currentOrderColumn !== column) {
         this.setState({
-          currentOrderBy:"asc"
+          currentOrderBy:"asc",
           currentOrderColumn: column
         })
     }
@@ -34,8 +44,6 @@ export default class RequestTable extends React.Component {
         currentOrderBy:"desc"
       })
     }
-
-    //this.props.requests
 
   }
 
@@ -51,37 +59,49 @@ export default class RequestTable extends React.Component {
           <thead>
               <tr>
                   <td>
-                      <RequestTableHeader headerName="Reference"
+                      <RequestTableHeader
+                        headerTitle="Reference"
+                        headerName="requestReference"
                         orderColumn={this.state.currentOrderColumn}
                         orderBy={this.state.currentOrderBy}
                         orderRequest={()=>this.orderRequest("requestReference")} />
                   </td>
                   <td>
-                      <RequestTableHeader headerName="Request Type"
+                      <RequestTableHeader
+                        headerTitle="Request Type"
+                        headerName="requestType"
                         orderColumn={this.state.currentOrderColumn}
                         orderBy={this.state.currentOrderBy}
                         orderRequest={()=>this.orderRequest("requestType")} />
                   </td>
                   <td>
-                      <RequestTableHeader headerName="ClientCode"
+                      <RequestTableHeader
+                        headerTitle="ClientCode"
+                        headerName="clientCode"
                         orderColumn={this.state.currentOrderColumn}
                         orderBy={this.state.currentOrderBy}
                         orderRequest={()=>this.orderRequest("clientCode")} />
                   </td>
                   <td>
-                      <RequestTableHeader headerName="AddedBy"
+                      <RequestTableHeader
+                        headerTitle="AddedBy"
+                        headerName="addedBy"
                         orderColumn={this.state.currentOrderColumn}
                         orderBy={this.state.currentOrderBy}
                         orderRequest={()=>this.orderRequest("addedBy")} />
                   </td>
                   <td>
-                      <RequestTableHeader headerName="DateTime Added"
+                      <RequestTableHeader
+                        headerTitle="DateTime Added"
+                        headerName="dateTimeAdded"
                         orderColumn={this.state.currentOrderColumn}
                         orderBy={this.state.currentOrderBy}
                         orderRequest={()=>this.orderRequest("dateTimeAdded")} />
                   </td>
                   <td>
-                      <RequestTableHeader headerName="Status"
+                      <RequestTableHeader
+                        headerTitle="Status"
+                        headerName="status"
                         orderColumn={this.state.currentOrderColumn}
                         orderBy={this.state.currentOrderBy}
                         orderRequest={()=>this.orderRequest("status")} />
@@ -102,7 +122,7 @@ export default class RequestTable extends React.Component {
                       <RequestTablePager
                         currentPage={this.state.currentPage}
                         totalPage={this.state.totalPage}
-                        pageNavigation={() => this.pagination(page)}
+                        pageNavigation={this.pagination}
                         />
                   </td>
               </tr>
