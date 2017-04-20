@@ -14,43 +14,68 @@ export default class RequestTable extends React.Component {
       currentPage: 1,
       totalPage: 1,
       pageItems:10,
+      requests:[]
     }
 
     this.pagination = this.pagination.bind(this);
+    this.setPage = this.setPage.bind(this);
+    this.sorting = this.sorting.bind(this);
   }//end constructor
 
   componentWillReceiveProps(nextProps) {
     let totalPage = parseInt(nextProps.requests.length / this.state.pageItems) + 1;
     this.setState({
-        totalPage:totalPage
+        totalPage:totalPage,
+        requests: nextProps.requests
     })
   }
 
-  orderRequest(column){
-    console.log(column, this.state);
-    if (this.state.currentOrderColumn !== column) {
-        this.setState({
-          currentOrderBy:"asc",
-          currentOrderColumn: column
-        })
-    }
-    else  if (this.state.currentOrderBy === "desc"){
-      this.setState({
-        currentOrderBy:"asc"
-      })
-    }
-    else  if (this.state.currentOrderBy === "asc"){
-      this.setState({
-        currentOrderBy:"desc"
-      })
+  orderRequest(column, orderby, pageno){
+
+    pageno = pageno || this.state.currentPage;
+    orderby = orderby || "asc";
+
+    if (this.state.currentOrderColumn === column && this.state.currentPage === pageno && this.state.currentOrderBy === "desc"){
+      orderby = "asc"
+    } else if (this.state.currentOrderColumn === column && this.state.currentPage === pageno && this.state.currentOrderBy === "asc"){
+      orderby = "desc"
     }
 
-  }
-
-  pagination(page) {
     this.setState({
-      currentPage:page
+      currentOrderBy:orderby,
+      currentPage:pageno,
+      currentOrderColumn: column,
+      requests: this.pagination(this.sorting(column, orderby), pageno)
     })
+
+  }
+
+  sorting(column, orderby) {
+    let objArray = Object.assign([], this.props.requests);
+    if (orderby == "asc") {
+      objArray.sort(function(a,b) {return (a[column] > b[column]) ? 1 : ((b[column] > a[column]) ? -1 : 0);} )
+    }
+    if (orderby == "desc") {
+      objArray.sort(function(a,b) {return (a[column] < b[column]) ? 1 : ((b[column] < a[column]) ? -1 : 0);} )
+    }
+    return objArray;
+  }
+
+  pagination(items, pageno) {
+    console.log(items, pageno);
+
+    let itemlen = this.state.pageItems;
+    let pagedArray = items.slice((pageno-1) * itemlen, pageno * itemlen);
+
+    this.setState({
+      currentPage:pageno
+    })
+
+    return pagedArray;
+  }
+
+  setPage(pageno) {
+    this.orderRequest(this.state.currentOrderColumn, this.state.currentOrderBy, pageno);
   }
 
   render(){
@@ -64,7 +89,7 @@ export default class RequestTable extends React.Component {
                         headerName="requestReference"
                         orderColumn={this.state.currentOrderColumn}
                         orderBy={this.state.currentOrderBy}
-                        orderRequest={()=>this.orderRequest("requestReference")} />
+                        orderRequest={()=>this.orderRequest("requestReference", this.state.currentOrderBy)} />
                   </td>
                   <td>
                       <RequestTableHeader
@@ -110,7 +135,7 @@ export default class RequestTable extends React.Component {
               </tr>
           </thead>
           <tbody>
-          {this.props.requests.map(x => {
+          {this.state.requests.map(x => {
             return (
               <RequestItem key={x.requestId} r={x} />
             )
@@ -122,7 +147,7 @@ export default class RequestTable extends React.Component {
                       <RequestTablePager
                         currentPage={this.state.currentPage}
                         totalPage={this.state.totalPage}
-                        pageNavigation={this.pagination}
+                        pageNavigation={this.setPage}
                         />
                   </td>
               </tr>
