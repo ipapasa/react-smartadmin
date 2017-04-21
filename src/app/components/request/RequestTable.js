@@ -20,20 +20,24 @@ export default class RequestTable extends React.Component {
     this.pagination = this.pagination.bind(this);
     this.setPage = this.setPage.bind(this);
     this.sorting = this.sorting.bind(this);
+    this.orderRequest = this.orderRequest.bind(this);
   }//end constructor
 
   componentWillReceiveProps(nextProps) {
     let totalPage = parseInt(nextProps.requests.length / this.state.pageItems) + 1;
     this.setState({
         totalPage:totalPage,
-        requests: nextProps.requests
+        requests: this.pagination(this.sorting(nextProps.requests, this.state.currentOrderColumn, this.state.currentOrderBy), 1)
+    }, function(){
+      console.log(this.state.requests)
     })
   }
 
-  orderRequest(column, orderby, pageno){
+  orderRequest(column, orderby, pageno, items){
 
     pageno = pageno || this.state.currentPage;
     orderby = orderby || "asc";
+    items = items || this.props.requests;
 
     if (this.state.currentOrderColumn === column && this.state.currentPage === pageno && this.state.currentOrderBy === "desc"){
       orderby = "asc"
@@ -45,13 +49,13 @@ export default class RequestTable extends React.Component {
       currentOrderBy:orderby,
       currentPage:pageno,
       currentOrderColumn: column,
-      requests: this.pagination(this.sorting(column, orderby), pageno)
+      requests: this.pagination(this.sorting(items, column, orderby), pageno)
     })
 
   }
 
-  sorting(column, orderby) {
-    let objArray = Object.assign([], this.props.requests);
+  sorting(items, column, orderby) {
+    let objArray = Object.assign([], items);
     if (orderby == "asc") {
       objArray.sort(function(a,b) {return (a[column] > b[column]) ? 1 : ((b[column] > a[column]) ? -1 : 0);} )
     }
@@ -101,7 +105,7 @@ export default class RequestTable extends React.Component {
                   </td>
                   <td>
                       <RequestTableHeader
-                        headerTitle="ClientCode"
+                        headerTitle="Client Code"
                         headerName="clientCode"
                         orderColumn={this.state.currentOrderColumn}
                         orderBy={this.state.currentOrderBy}
@@ -135,7 +139,7 @@ export default class RequestTable extends React.Component {
               </tr>
           </thead>
           <tbody>
-          {this.state.requests.map(x => {
+          {this.state.requests && this.state.requests.map(x => {
             return (
               <RequestItem key={x.requestId} r={x} />
             )
