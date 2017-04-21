@@ -11,17 +11,35 @@ class RequestList extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state={
+      filter: {
+        type:'',
+        requestType:'',
+        status:'',
+        reference: ''
+      }
+    }
+
     this.props.actions.loadRequest();
+
+    this.filterRequests = this.filterRequests.bind(this);
+
+  }
+
+  filterRequests(filter) {
+    this.setState({
+      filter:filter
+    })
   }
 
   render(){
     return(
       <div id="content">
         <div className="row">
-          <RequestListSearch />
+          <RequestListSearch filterRequests={this.filterRequests} />
         </div>
         <div className="row">
-          <RequestTable requests={this.props.requests} />
+          <RequestTable requests={this.props.requests} filter={this.state.filter} />
         </div>
       </div>
     )

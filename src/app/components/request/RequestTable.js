@@ -25,11 +25,15 @@ export default class RequestTable extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     let totalPage = parseInt(nextProps.requests.length / this.state.pageItems) + 1;
+
+    let filter = nextProps.filter;
+    console.log('request table fitler',filter);
+
     this.setState({
         totalPage:totalPage,
         requests: this.pagination(this.sorting(nextProps.requests, this.state.currentOrderColumn, this.state.currentOrderBy), 1)
     }, function(){
-      console.log(this.state.requests)
+      //console.log(this.state.requests)
     })
   }
 
@@ -66,7 +70,7 @@ export default class RequestTable extends React.Component {
   }
 
   pagination(items, pageno) {
-    console.log(items, pageno);
+    //console.log(items, pageno);
 
     let itemlen = this.state.pageItems;
     let pagedArray = items.slice((pageno-1) * itemlen, pageno * itemlen);
