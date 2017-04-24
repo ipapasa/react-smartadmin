@@ -5,6 +5,8 @@ export const LOAD_REQUEST_SUCCESS = 'LOAD_REQUEST_SUCCESS';
 export const LOAD_REQUEST_FAILURE = 'LOAD_REQUEST_FAILURE';
 
 export function loadRequest(){
+  console.log('loadRequest triggereed');
+  
   let clientcode = getAuthData().tdOrgCode;
   let access_token = getAuthData().access_token;
 

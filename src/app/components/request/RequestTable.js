@@ -21,21 +21,52 @@ export default class RequestTable extends React.Component {
     this.setPage = this.setPage.bind(this);
     this.sorting = this.sorting.bind(this);
     this.orderRequest = this.orderRequest.bind(this);
+    this.requestFilter = this.requestFilter.bind(this);
   }//end constructor
 
   componentWillReceiveProps(nextProps) {
-    let totalPage = parseInt(nextProps.requests.length / this.state.pageItems) + 1;
-
     let filter = nextProps.filter;
+    let searchedResults = this.requestFilter(nextProps.requests, filter)
+    let totalPage = parseInt(searchedResults.length / this.state.pageItems) + 1;
+
     console.log('request table fitler',filter);
 
     this.setState({
         totalPage:totalPage,
-        requests: this.pagination(this.sorting(nextProps.requests, this.state.currentOrderColumn, this.state.currentOrderBy), 1)
+        requests: this.pagination(this.sorting(searchedResults, this.state.currentOrderColumn, this.state.currentOrderBy), 1)
     }, function(){
       //console.log(this.state.requests)
     })
   }
+
+  requestFilter(requests, filter) {
+      console.log('request fitler', filter);
+
+      let searched = requests.filter( x=> {
+        let result = true;
+        if (result && filter.type === 'my') {
+          console.log('userName', this.props.userName);
+          result = (x.addedBy === this.props.userName)
+        }
+        if (result && filter.requestType !== '') {
+          result = (x.requestType === filter.requestType)
+        }
+        if (result && filter.status !== '') {
+          result = (x.status === filter.status)
+        }
+        if (result && filter.reference !== '') {
+          result = (x.requestReference.indexOf(filter.reference) > -1)
+        }
+
+        console.log('check one item', x);
+        return result;
+      })
+
+      console.log(searched);
+      return searched;
+
+  }
+
 
   orderRequest(column, orderby, pageno, items){
 

@@ -23,7 +23,6 @@ class RequestList extends React.Component {
     this.props.actions.loadRequest();
 
     this.filterRequests = this.filterRequests.bind(this);
-
   }
 
   filterRequests(filter) {
@@ -36,10 +35,10 @@ class RequestList extends React.Component {
     return(
       <div id="content">
         <div className="row">
-          <RequestListSearch filterRequests={this.filterRequests} />
+          <RequestListSearch filterRequests={this.filterRequests} refresh={() => this.props.actions.loadRequest()} />
         </div>
         <div className="row">
-          <RequestTable requests={this.props.requests} filter={this.state.filter} />
+          <RequestTable requests={this.props.requests} filter={this.state.filter} userName={this.props.account.userName} />
         </div>
       </div>
     )
@@ -49,7 +48,8 @@ class RequestList extends React.Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    requests: state.requests
+    requests: state.requests,
+    account: state.account
   }
 }
 
@@ -57,6 +57,10 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(actions, dispatch)
   }
+}
+
+RequestList.defaultProps = {
+  userName : ''
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)( RequestList );
