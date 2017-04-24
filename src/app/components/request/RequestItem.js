@@ -1,6 +1,9 @@
 import React from 'react';
 
 export default class RequestItem extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
   render(){
     return(
@@ -15,7 +18,7 @@ export default class RequestItem extends React.Component {
           {this.props.r.status}
         </td>
         <td>
-            <a title="View Detail" alt="View Detail">
+            <a title="View Detail" alt="View Detail" onClick={ () => this.props.viewDetail(this.props.r) }>
                 <i className="fa fa-info"></i> View Detail
             </a>
             &nbsp;

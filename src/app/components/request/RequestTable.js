@@ -3,6 +3,7 @@ import React from 'react';
 import RequestTableHeader from './RequestTableHeader';
 import RequestItem from './RequestItem';
 import RequestTablePager from './RequestTablePager';
+import RequestItemModal from './RequestItemModal';
 
 export default class RequestTable extends React.Component {
   constructor(props) {
@@ -14,7 +15,8 @@ export default class RequestTable extends React.Component {
       currentPage: 1,
       totalPage: 1,
       pageItems:10,
-      requests:[]
+      requests:[],
+      showModal:false
     }
 
     this.pagination = this.pagination.bind(this);
@@ -22,6 +24,7 @@ export default class RequestTable extends React.Component {
     this.sorting = this.sorting.bind(this);
     this.orderRequest = this.orderRequest.bind(this);
     this.requestFilter = this.requestFilter.bind(this);
+    this.viewDetail = this.viewDetail.bind(this);
   }//end constructor
 
   componentWillReceiveProps(nextProps) {
@@ -40,7 +43,6 @@ export default class RequestTable extends React.Component {
   }
 
   requestFilter(requests, filter) {
-      console.log('request fitler', filter);
 
       let searched = requests.filter( x=> {
         let result = true;
@@ -57,16 +59,12 @@ export default class RequestTable extends React.Component {
         if (result && filter.reference !== '') {
           result = (x.requestReference.indexOf(filter.reference) > -1)
         }
-
-        console.log('check one item', x);
         return result;
       })
 
-      console.log(searched);
       return searched;
 
   }
-
 
   orderRequest(column, orderby, pageno, items){
 
@@ -117,8 +115,17 @@ export default class RequestTable extends React.Component {
     this.orderRequest(this.state.currentOrderColumn, this.state.currentOrderBy, pageno);
   }
 
+  viewDetail(item) {
+    console.log('item', item);
+    this.setState({
+      item: item,
+      showModal: true
+    })
+  }
+
   render(){
     return(
+      <div>
       <table className="table table-striped">
           <thead>
               <tr>
@@ -176,7 +183,7 @@ export default class RequestTable extends React.Component {
           <tbody>
           {this.state.requests && this.state.requests.map(x => {
             return (
-              <RequestItem key={x.requestId} r={x} />
+              <RequestItem key={x.requestId} r={x} viewDetail={this.viewDetail} />
             )
           })}
           </tbody>
@@ -192,6 +199,8 @@ export default class RequestTable extends React.Component {
               </tr>
           </tfoot>
       </table>
+      <RequestItemModal item={this.state.item} showModal={this.state.showModal}/>
+      </div>
     )
   }
 
