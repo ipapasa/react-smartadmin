@@ -25,6 +25,17 @@
             "icon": "fa fa-lg fa-fw fa-table"
           }
         ]
+    },
+    {
+        "title": "Services",
+        "icon": "fa fa-lg fa-fw fa-table",
+        "items": [
+          {
+            "title": "Distributions",
+            "route": "/services/distributions",
+            "icon": "fa fa-lg fa-fw fa-table"
+          }
+        ]
     }
   ]
 }

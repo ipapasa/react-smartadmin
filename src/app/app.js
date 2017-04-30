@@ -15,6 +15,7 @@ const routes = {
   childRoutes: [
     require('./routes/home').default,
     require('./routes/requests').default,
+    require('./routes/services').default,
 
     // require('./routes/dashboard').default,
     // require('./routes/smartadmin-intel').default,
