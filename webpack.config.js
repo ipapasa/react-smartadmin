@@ -99,6 +99,7 @@ module.exports = (env) => {
       proxy : {
         //'/token' : 'http://localhost:48726/',
         //'/api': 'http://localhost:27969'
+
         '/token' : 'http://192.168.10.54:9092/ClientPortal.Security.API/',
         '/api': 'http://192.168.10.54:9092/ClientPortal.ResourceServer/'
       }

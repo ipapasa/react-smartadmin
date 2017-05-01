@@ -25,6 +25,7 @@ export default class RequestTable extends React.Component {
     this.orderRequest = this.orderRequest.bind(this);
     this.requestFilter = this.requestFilter.bind(this);
     this.viewDetail = this.viewDetail.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }//end constructor
 
   componentWillReceiveProps(nextProps) {
@@ -123,6 +124,13 @@ export default class RequestTable extends React.Component {
     })
   }
 
+  closeModal() {
+    this.setState({
+      item:{},
+      showModal: false
+    })
+  }
+
   render(){
     return(
       <div>
@@ -199,7 +207,7 @@ export default class RequestTable extends React.Component {
               </tr>
           </tfoot>
       </table>
-      <RequestItemModal item={this.state.item} showModal={this.state.showModal}/>
+      <RequestItemModal item={this.state.item} showModal={this.state.showModal} closeModal={this.closeModal} />
       </div>
     )
   }

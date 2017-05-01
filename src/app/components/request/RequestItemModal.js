@@ -12,8 +12,8 @@ export default class RequestItemModal extends React.Component {
     this.close = this.close.bind(this);
   }
 
-  close() {
-    this.setState({showModal:false})
+  close() {    
+    this.props.closeModal();
   }
 
   componentWillReceiveProps(nextProps) {
