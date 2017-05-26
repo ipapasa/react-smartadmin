@@ -34,6 +34,11 @@
             "title": "Distributions",
             "route": "/services/distributions",
             "icon": "fa fa-lg fa-fw fa-table"
+          },
+          {
+            "title": "Rebates",
+            "route": "/services/rebates",
+            "icon": "fa fa-lg fa-fw fa-table"
           }
         ]
     }
