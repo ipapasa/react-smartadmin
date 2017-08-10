@@ -7,22 +7,6 @@ export const LOGOUT_USER = 'LOGOUT_USER'
 export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS'
 export const LOGIN_USER_FAILURE = 'LOGIN_USER_FAILURE'
 
-import {loginUserAPI} from './accountApi'
-
-export function loginUser2(user)
-{
-  lolginUserAPI().then(resp => {
-
-      console.log(response);
-
-      //update the data into localstorage
-      let authString = encrypt(obj);
-      console.log(obj, authString);
-      sessionStorage.setItem('authorisationData', authString);
-
-      dispatch(loginUserSuccess(obj));
-}
-
 export function loginUser(user)
 {
 
@@ -38,7 +22,6 @@ export function loginUser(user)
   });
 
   return (dispatch) => {
-
     return fetch(request).then(response => {
       if (response.status !== 200) {
         dispatch(loginUserFailure("Invalid username or password."));
